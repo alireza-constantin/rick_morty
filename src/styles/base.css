@@ -1,0 +1,20 @@
+@tailwind base;
+
+@layer base {
+    :root {
+        color-scheme: light;
+        --theme-bg: #000;
+        --theme-text: #97CE4C;
+        --theme-accent: #40b4c4;
+        --theme-accent-2: #FCFFB2;
+    }
+
+    body {
+        @apply bg-bgColor min-h-screen text-textColor
+    }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+
