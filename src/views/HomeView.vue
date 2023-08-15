@@ -11,5 +11,8 @@
           <img :src="bigScreen" />
         </picture>
       </div>
+      <div>
+        
+      </div>
   </main>
 </template>

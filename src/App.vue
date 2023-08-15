@@ -7,7 +7,6 @@
 
 <template>
   <head>
-
   </head>
   <header>
     <div class="flex justify-between items-center px-4 py-4 sm:px-6">
