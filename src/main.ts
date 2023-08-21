@@ -1,6 +1,6 @@
 import './styles/base.css'
 
-import { createApp, h, provide, render } from 'vue'
+import { createApp, h, provide } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { createPinia } from 'pinia'
 import ApolloClient from 'apollo-boost'
