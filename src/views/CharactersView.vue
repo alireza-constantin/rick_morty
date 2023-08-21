@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div class="px-4">
     <div v-if="loading">
       loadin ...
     </div>
     <div v-else-if="result">
-      <h1>Characters</h1>
-      <Character v-for="character in result.characters.results" :key="character.id" :character="character" />
+      <h1 class="text-center text-2xl mb-8">Characters</h1>
+      <ul class="flex flex-wrap gap-8">
+        <Character v-for="character in result.characters.results" :key="character.id" :character="character" />
+      </ul>
     </div>
   </div>
 </template>
