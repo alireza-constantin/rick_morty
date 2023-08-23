@@ -1,10 +1,10 @@
 <template>
     <li
-        class="text-accent animate-appear cursor-pointer  hover:scale-105 duration-500 transition-transform shadow-[2px_2px_10px_4px] mx-auto rounded-t-lg rounded-b-md relative"
+        class="text-accent animate-appear cursor-pointer shadow-[2px_2px_10px_4px] rounded-t-lg rounded-b-md relative"
         :class="statusShadow"
         >
         <RouterLink :to="{ name: 'characterDetails', params: { id: $props.character.id } }">
-            <img :src="$props.character.image" class="rounded-lg bg-cover" />
+            <img :src="$props.character.image" class="rounded-t-lg transition-all bg-cover hover:scale-90 hover:rounded-lg" />
             <div class="py-4 px-2 sm:p-4">
                 <h4 class="text-sm sm:text-base">{{ $props.character.name }}</h4>
                 <div class="flex justify-between items-center">

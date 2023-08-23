@@ -1,17 +1,17 @@
 <template>
   <div class="px-4">
     <div>
-      <h1 class="font-nav text-center text-2xl">Characters</h1>
-      <ul v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
+      <PageHeader text="Characters" />
+      <CardContainer v-if="loading">
         <Skeleton v-for="i in 20" :key="i" />
-      </ul>
-      <ul v-if="!loading && result" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
+      </CardContainer>
+      <CardContainer v-if="!loading && result" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
         <Character v-for="character in characters" :key="character.id" :character="character" />
-      </ul>
+      </CardContainer>
     </div>
   </div>
   <div class="flex font-nav justify-center items-center gap-4 my-8">
-    <PaginationButton text="prev" :paginator="paginator" :page="prevPage"  />
+    <PaginationButton text="prev" :paginator="paginator" :page="prevPage" />
     <PaginationButton text="next" :paginator="paginator" :page="nextPage" />
   </div>
 </template>
@@ -20,10 +20,12 @@
   import type { Characters } from '@/utils/types'
   import { gql } from "apollo-boost"
   import Character from '@/components/Character.vue';
-  import { computed, ref} from 'vue';
+  import { computed, ref } from 'vue';
   import router from '@/router';
   import Skeleton from '@/components/Skeleton.vue';
-import PaginationButton from '@/components/PaginationButton.vue';
+  import PaginationButton from '@/components/PaginationButton.vue';
+  import CardContainer from '@/components/CardContainer.vue'
+import PageHeader from '@/components/PageHeader.vue';
 
   const CHARACTERS_QUERY = gql`
     query Characters($page: Int) {
@@ -55,20 +57,6 @@ import PaginationButton from '@/components/PaginationButton.vue';
   let nextPage = computed(() => result.value?.characters.info.next)
   let prevPage = computed(() => result.value?.characters.info.prev)
 
-  
-  function nextPageHandler() {
-    if (nextPage.value) {
-      paginator(nextPage.value)
-      router.push({ query: { page: nextPage.value } })
-    }
-  }
-
-  function prevPageHandler(){
-    if (prevPage.value) {
-      paginator(prevPage.value)
-      router.push({ query: { page: prevPage.value } })
-    }
-  }
 
   function paginator(page: number) {
     fetchMore({
@@ -80,6 +68,6 @@ import PaginationButton from '@/components/PaginationButton.vue';
         return fetchMoreResult
       },
     })
-  }  
+  }
 
 </script>
