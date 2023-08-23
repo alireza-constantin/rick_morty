@@ -2,7 +2,7 @@
   <div class="px-4">
     <div>
       <h1 class="font-nav text-center text-2xl">Characters</h1>
-      <ul v-if="loading" class="flex flex-wrap gap-8 mt-8">
+      <ul v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
         <Skeleton v-for="i in 20" :key="i" />
       </ul>
       <ul v-if="!loading && result" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
