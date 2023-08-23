@@ -11,10 +11,8 @@
     </div>
   </div>
   <div class="flex font-nav justify-center items-center gap-4 my-8">
-    <button v-show="prevPage" class="py-2 px-4 text-2xl hover:underline decoration-wavy font-bold rounded-md underline-offset-2 decoration-accent-2"
-      @click="prevPageHandler">prev</button>
-    <button v-show="nextPage" class="py-2 px-4 text-2xl font-bold hover:underline decoration-wavy underline-offset-2 decoration-accent-2"
-      @click="nextPageHandler">next</button>
+    <PaginationButton text="prev" :paginator="paginator" :page="prevPage"  />
+    <PaginationButton text="next" :paginator="paginator" :page="nextPage" />
   </div>
 </template>
 <script setup lang="ts">
@@ -25,6 +23,7 @@
   import { computed, ref} from 'vue';
   import router from '@/router';
   import Skeleton from '@/components/Skeleton.vue';
+import PaginationButton from '@/components/PaginationButton.vue';
 
   const CHARACTERS_QUERY = gql`
     query Characters($page: Int) {
