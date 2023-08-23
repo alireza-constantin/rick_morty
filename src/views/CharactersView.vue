@@ -5,7 +5,7 @@
       <ul v-if="loading" class="flex flex-wrap gap-8 mt-8">
         <Skeleton v-for="i in 20" :key="i" />
       </ul>
-      <ul v-if="!loading && result" class="flex flex-wrap gap-8 mt-8">
+      <ul v-if="!loading && result" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
         <Character v-for="character in characters" :key="character.id" :character="character" />
       </ul>
     </div>
@@ -22,10 +22,9 @@
   import type { Characters } from '@/utils/types'
   import { gql } from "apollo-boost"
   import Character from '@/components/Character.vue';
-  import { computed, ref, watchEffect } from 'vue';
+  import { computed, ref} from 'vue';
   import router from '@/router';
   import Skeleton from '@/components/Skeleton.vue';
-
 
   const CHARACTERS_QUERY = gql`
     query Characters($page: Int) {
@@ -47,52 +46,41 @@
 `
 
   const pageQuery = computed(() => router.currentRoute.value.query.page)
-  let page = ref(Number(pageQuery.value) || 1)
+  const page = ref(Number(pageQuery.value) || 1)
 
   const { result, loading, error, fetchMore } = useQuery<Characters>(CHARACTERS_QUERY, () => ({
     page: page.value
   }))
 
+  const characters = computed(() => result.value?.characters.results)
   let nextPage = computed(() => result.value?.characters.info.next)
   let prevPage = computed(() => result.value?.characters.info.prev)
 
-
-  const characters = computed(() => result.value?.characters.results)
+  
   function nextPageHandler() {
     if (nextPage.value) {
-      fetchMoreCh(nextPage.value)
+      paginator(nextPage.value)
       router.push({ query: { page: nextPage.value } })
     }
   }
 
   function prevPageHandler(){
     if (prevPage.value) {
-      fetchMoreCh(prevPage.value)
+      paginator(prevPage.value)
       router.push({ query: { page: prevPage.value } })
     }
   }
 
-  function fetchMoreCh(page: number) {
-
+  function paginator(page: number) {
     fetchMore({
       variables: {
         page,
       },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult?.characters) return prevResult
-
-        // return {
-        //   characters: {
-        //     ...prevResult.characters,
-        //     results: [
-        //       ...prevResult.characters.results,
-        //       ...fetchMoreResult?.characters.results
-        //     ]
-        //   }
-        // }
         return fetchMoreResult
-
-      }
+      },
     })
-}
+  }  
+
 </script>
