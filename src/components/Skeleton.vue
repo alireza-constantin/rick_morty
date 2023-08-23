@@ -1,6 +1,6 @@
 <template>
     <div class="mx-auto">
-        <div class="shadow-2xl shadow-stone-900 bg-bgColor w-[300px] h-[400px]   rounded-md items-center">
+        <div class="shadow-2xl border-2 border-black shadow-stone-900 bg-bgColor w-[304px] h-[400px]   rounded-md items-center">
 
             <div data-placeholder class="h-[300px] rounded-md w-full overflow-hidden relative bg-neutral-950"></div>
 
