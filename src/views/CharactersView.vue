@@ -1,7 +1,7 @@
 <template>
   <div class="px-4">
     <div>
-      <h1 class="text-center text-2xl">Characters</h1>
+      <h1 class="font-nav text-center text-2xl">Characters</h1>
       <ul v-if="loading" class="flex flex-wrap gap-8 mt-8">
         <Skeleton v-for="i in 20" :key="i" />
       </ul>
@@ -10,10 +10,10 @@
       </ul>
     </div>
   </div>
-  <div class="flex justify-center items-center gap-4 my-8">
-    <button v-show="prevPage" class="py-2 px-4 border-2 text-xl font-bold text-accent border-accent-2 rounded-md"
+  <div class="flex font-nav justify-center items-center gap-4 my-8">
+    <button v-show="prevPage" class="py-2 px-4 text-2xl hover:underline decoration-wavy font-bold rounded-md underline-offset-2 decoration-accent-2"
       @click="prevPageHandler">prev</button>
-    <button v-show="nextPage" class="py-2 px-4 border-2 text-xl font-bold text-accent border-accent-2 rounded-md"
+    <button v-show="nextPage" class="py-2 px-4 text-2xl font-bold hover:underline decoration-wavy underline-offset-2 decoration-accent-2"
       @click="nextPageHandler">next</button>
   </div>
 </template>
