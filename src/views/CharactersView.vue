@@ -1,23 +1,26 @@
 <template>
   <div class="px-4">
-    <div v-if="result">
-      <h1 class="text-center text-2xl mb-8">Characters</h1>
-      <ul class="flex flex-wrap gap-8">
+    <div>
+      <h1 class="text-center text-2xl">Characters</h1>
+       <ul v-if="result" class="flex flex-wrap gap-8 mt-8">
         <Character v-for="character in characters" :key="character.id" :character="character" />
       </ul>
+      <ul v-if="loading" class="flex flex-wrap gap-8 mt-8">
+        <Skeleton v-for="i in 20" :key="i" />
+        </ul>
     </div>
   </div>
-  <button class="mx-auto mt-10 border-2" @click="fetchMoreCh" >more...</button>
-  <div class="text-center text-2xl pt-2 pb-8" v-if="loading">
-    loading ...
-  </div>
+  <button class="mx-auto mt-10 border-2" @click="onMoreClick">more...</button>
+  
 </template>
 <script setup lang="ts">
   import { useQuery } from '@vue/apollo-composable';
-  import type {Characters } from '@/utils/types'
+  import type { Characters } from '@/utils/types'
   import { gql } from "apollo-boost"
   import Character from '@/components/Character.vue';
-import { computed, watchEffect } from 'vue';
+  import { computed, watchEffect } from 'vue';
+  import router from '@/router';
+import Skeleton from '@/components/Skeleton.vue';
   // import { onMounted, ref, watchEffect } from 'vue';
 
 
@@ -36,6 +39,9 @@ import { computed, watchEffect } from 'vue';
 }
 `
 
+  const page = computed(() => router.currentRoute.value.query.page)
+  console.log(page.value)
+
   const { result, loading, error, fetchMore } = useQuery<Characters>(CHARACTERS_QUERY, () => ({
     page: 1
   }))
@@ -43,40 +49,32 @@ import { computed, watchEffect } from 'vue';
   let nextPage = 1
 
   const characters = computed(() => result.value?.characters.results)
-  function fetchMoreCh(){
+  function onMoreClick() {
     nextPage++
+    fetchMoreCh()
+    router.push({ query: { page: nextPage } })
+  }
+
+  function fetchMoreCh() {
+
     fetchMore({
       variables: {
-        page: nextPage
+        page:nextPage
       },
       updateQuery: (prevResult, { fetchMoreResult }) => {
-        if(!fetchMoreResult?.characters) return prevResult
+        if (!fetchMoreResult?.characters) return prevResult
 
         return {
           characters: {
-          ...prevResult.characters,
-          results: [
-            ...prevResult.characters.results,
-            ...fetchMoreResult?.characters.results
+            ...prevResult.characters,
+            results: [
+              ...prevResult.characters.results,
+              ...fetchMoreResult?.characters.results
             ]
           }
         }
 
-
-      } 
+      }
     })
   }
-
-  // window.addEventListener('scroll', () => {
-  //   if (loading.value || error.value) return;
-
-  //   const scrollBottom =
-  //     window.innerHeight + window.scrollY >= document.body.scrollHeight;
-
-  //   if (scrollBottom) {
-    
-  //   }
-    // page++
-  // });
-
 </script>

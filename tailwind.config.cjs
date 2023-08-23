@@ -10,8 +10,18 @@ module.exports = {
                 "accent-2": "var(--theme-accent-2)",
             },
             fontFamily: {
-                nav: ['Creepster','cursive']
-            }
+                nav: ["Creepster", "cursive"],
+            },
+            animation: { appear: "appear 1s ease-out forwards" },
+            keyframes: {
+                appear: {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(-15px)",
+                    },
+                    "100%": { opacity: "1", transform: "translateX(0px)" },
+                },
+            },
         },
     },
     plugins: [],
